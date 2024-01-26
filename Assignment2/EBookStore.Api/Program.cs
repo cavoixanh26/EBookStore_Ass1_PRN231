@@ -61,6 +61,8 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 // registration service
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IPublisherService, PublisherService>();
+
 
 var app = builder.Build();
 
