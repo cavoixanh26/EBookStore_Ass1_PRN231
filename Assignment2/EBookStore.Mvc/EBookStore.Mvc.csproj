@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Contents\assets\demo\chart-area-demo.js" />
+    <None Include="wwwroot\Contents\assets\demo\chart-bar-demo.js" />
+    <None Include="wwwroot\Contents\assets\demo\chart-pie-demo.js" />
+    <None Include="wwwroot\Contents\assets\demo\datatables-demo.js" />
+    <None Include="wwwroot\Contents\assets\img\error-404-monochrome.svg" />
+    <None Include="wwwroot\Contents\css\styles.css" />
+    <None Include="wwwroot\Contents\js\datatables-simple-demo.js" />
+    <None Include="wwwroot\Contents\js\scripts.js" />
+  </ItemGroup>
+
+</Project>

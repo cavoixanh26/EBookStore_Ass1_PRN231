@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBookStore.Api", "EBookStore.Api\EBookStore.Api.csproj", "{E871D6BE-F978-441B-971D-FAE20B48057E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBookStore.Mvc", "EBookStore.Mvc\EBookStore.Mvc.csproj", "{3696BCA9-B3C7-4CDE-9ECB-46FAD588B4B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E871D6BE-F978-441B-971D-FAE20B48057E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E871D6BE-F978-441B-971D-FAE20B48057E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E871D6BE-F978-441B-971D-FAE20B48057E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E871D6BE-F978-441B-971D-FAE20B48057E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3696BCA9-B3C7-4CDE-9ECB-46FAD588B4B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3696BCA9-B3C7-4CDE-9ECB-46FAD588B4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3696BCA9-B3C7-4CDE-9ECB-46FAD588B4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3696BCA9-B3C7-4CDE-9ECB-46FAD588B4B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78ECFA90-1FB8-44E2-9498-30063DA7401D}
+	EndGlobalSection
+EndGlobal
