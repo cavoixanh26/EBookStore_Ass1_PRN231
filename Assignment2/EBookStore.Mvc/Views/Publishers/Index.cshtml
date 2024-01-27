@@ -1,0 +1,113 @@
+﻿@model IEnumerable<EBookStore.Mvc.Models.Publisher.PublisherDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Enter Author Information</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form class="row" action="@Url.Action("Create", "Publishers")" , method="post" id="publisherForm">
+                <div class="col-12">
+                    <label for="publisherName" class="form-label">Publisher Name</label>
+                    <input type="text" class="form-control" id="publisherName" name="publisherName" placeholder="publisher's name">
+                </div>
+                <div class="col-12">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="City">
+                </div>
+                <div class="col-12">
+                    <label for="state" class="form-label">State</label>
+                    <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                </div>
+                <div class="col-12">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="country" name="country" placeholder="country">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger" onclick="cleanInput()">Clean</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cleanInput () {
+        // Lấy danh sách tất cả các trường nhập liệu trong form
+        var formFields = document.querySelectorAll('#publisherForm input');
+
+        // Lặp qua từng trường và xóa giá trị
+        formFields.forEach(function (field) {
+            field.value = '';
+        });
+    };
+</script>
+
+<h1>Publisher</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PubId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PubId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.PubId  }) |
+                    <a href="#" onclick="deletePublisher(@item.PubId)">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    function deletePublisher(pubId) {
+        if (confirm('Are you sure you want to delete?')) {
+            $.ajax({
+                url: '@Url.Action("Delete", "Publishers")',
+                type: 'DELETE',
+                data: { id: pubId },
+                success: function (result) {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('Failed to delete publisher.');
+                }
+            });
+        }
+    }
+</script>

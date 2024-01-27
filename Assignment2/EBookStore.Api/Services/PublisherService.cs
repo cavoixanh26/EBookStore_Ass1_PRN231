@@ -32,9 +32,15 @@ namespace EBookStore.Api.Services
             await context.SaveChangesAsync();
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var publisher = await context.Publishers.FindAsync(id);
+            if (publisher == null)
+            {
+                throw new Exception();
+            }
+            context.Publishers.Remove(publisher);
+            await context.SaveChangesAsync();
         }
 
         public async Task<PublisherDto> GetById(int id)
