@@ -1,6 +1,4 @@
-﻿using EBookStore.Api.Dtos.Author;
-
-namespace EBookStore.Api.Dtos.Book
+﻿namespace EBookStore.Mvc.Models.Book
 {
     public class BookDto
     {
@@ -14,7 +12,10 @@ namespace EBookStore.Api.Dtos.Book
         public string? Notes { get; set; }
         public DateTime? PublishedDate { get; set; }
         public string? PublisherName { get; set; }
-        public ICollection<AuthorDto>? Authors { get; set; }
     }
 
+    public class BookResponse
+    {
+        public List<BookDto> Books { get; set; }
+    }
 }

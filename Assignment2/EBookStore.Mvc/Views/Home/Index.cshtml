@@ -2,29 +2,38 @@
     ViewData["Title"] = "Home Page";
 }
 
+<a href="">Add New Book</a>
+
 <table class="table table-striped">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Title</th>
+            <th scope="col">Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Advance</th>
+            <th scope="col">Royalty</th>
+            <th scope="col">YtdSales</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Published Date</th>
+            <th scope="col">Publisher Name</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-        </tr>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <th scope="row"><a href="">@item.BookId</a></th>
+                <td>@item.Title</td>
+                <td>@item.Type</td>
+                <td>@item.Price</td>
+                <td>@item.Advance</td>
+                <td>@item.Royalty</td>
+                <td>@item.YtdSales</td>
+                <td>@item.Notes</td>
+                <td>@item.PublishedDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.PublisherName</td>
+            </tr>
+        }
     </tbody>
 </table>
