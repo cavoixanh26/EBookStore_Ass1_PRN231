@@ -1,0 +1,98 @@
+﻿@model EBookStore.Mvc.Models.Book.BookDto
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Detail book</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="display: none">
+                <label asp-for="BookId" class="control-label"></label>
+                <input asp-for="BookId" readonly class="form-control" />
+                <span asp-validation-for="BookId" class="text-danger"></span>
+            </div>
+            <input value="@Model.BookId" name="id" hidden/>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Advance" class="control-label"></label>
+                <input asp-for="Advance" class="form-control" />
+                <span asp-validation-for="Advance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Royalty" class="control-label"></label>
+                <input asp-for="Royalty" class="form-control" />
+                <span asp-validation-for="Royalty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YtdSales" class="control-label"></label>
+                <input asp-for="YtdSales" class="form-control" />
+                <span asp-validation-for="YtdSales" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PublishedDate" class="control-label"></label>
+                <input asp-for="PublishedDate" class="form-control" />
+                <span asp-validation-for="PublishedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PublisherName" class="control-label"></label>
+                <select class="form-select" id="PubId" name="PubId">
+                        @foreach (var p in ViewBag.Publishers)
+                        {
+                        <option value="@p.PubId" selected="@(Model.PubId == p.PubId ? "selected" : "")" >@p.PublisherName</option>
+                        }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save edit" class="btn btn-primary" />
+                <button type="button" class="btn btn-danger"  onclick="deleteBook(@Model.BookId)">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/">Back to List</a>
+</div>
+
+<script>
+    function deleteBook(bookId) {
+        if (confirm('Are you sure you want to delete?')) {
+            $.ajax({
+                url: '@Url.Action("Delete", "Books")',
+                type: 'DELETE',
+                data: { id: bookId },
+                success: function (result) {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('Failed to delete publisher.');
+                }
+            });
+        }
+    }
+</script>
+

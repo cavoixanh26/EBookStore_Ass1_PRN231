@@ -36,7 +36,7 @@ namespace EBookStore.Api.Services
                 {
                     await context.Books.AddAsync(book);
                     await context.SaveChangesAsync();
-                    if (request.Authors.Any())
+                    if (request.Authors != null)
                     {
                         var bookAuthors = new List<BookAuthor>();
                         foreach (var author in request.Authors)
@@ -47,8 +47,8 @@ namespace EBookStore.Api.Services
                         }
                         await context.BookAuthors.AddRangeAsync(bookAuthors);
                         await context.SaveChangesAsync();
-                        await transaction.CommitAsync();
                     }
+                        await transaction.CommitAsync();
                 }
                 catch (Exception ex)
                 {
@@ -63,7 +63,8 @@ namespace EBookStore.Api.Services
             var book = await context.Books.FindAsync(id);
             if (book == null) { throw new Exception(); }
             var bookAuthors = await context.BookAuthors.Where(x => x.BookId == id).ToListAsync();
-            context.BookAuthors.RemoveRange(bookAuthors);
+            if (bookAuthors.Any())
+                context.BookAuthors.RemoveRange(bookAuthors);
             context.Books.Remove(book);
             await context.SaveChangesAsync();
         }
@@ -99,9 +100,42 @@ namespace EBookStore.Api.Services
             return response;
         }
 
-        public Task Update(int id, CreateBookRequest request)
+        public async Task Update(int id, CreateBookRequest request)
         {
-            throw new NotImplementedException();
+            var book = await context.Books.FindAsync(id);
+            if (book == null) throw new Exception();
+
+            mapper.Map(request, book);
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    context.Books.Update(book);
+                    await context.SaveChangesAsync();
+                    var existBookAuthors = await context.BookAuthors.Where(x => x.BookId == id).ToListAsync();
+                    context.BookAuthors.RemoveRange(existBookAuthors);
+                    await context.SaveChangesAsync();
+                    if (request.Authors != null)
+                    {
+                        var bookAuthors = new List<BookAuthor>();
+                        foreach (var author in request.Authors)
+                        {
+                            var bookAuthor = mapper.Map<BookAuthor>(author);
+                            bookAuthor.BookId = book.BookId;
+                            bookAuthors.Add(bookAuthor);
+                        }
+                        await context.BookAuthors.AddRangeAsync(bookAuthors);
+                        await context.SaveChangesAsync();
+                    }
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw new Exception(ex.ToString());
+                }
+            }
+
         }
     }
 }

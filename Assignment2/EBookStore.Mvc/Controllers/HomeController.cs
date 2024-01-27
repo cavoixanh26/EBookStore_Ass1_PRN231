@@ -1,5 +1,6 @@
 ﻿using EBookStore.Mvc.Models;
 using EBookStore.Mvc.Models.Book;
+using EBookStore.Mvc.Models.Publisher;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace EBookStore.Mvc.Controllers
 
         public async Task<ActionResult> Index()
         {
+            BookResponse bookResponse = null;
             using (var client = new HttpClient())
             {
                 using (var response = await client.GetAsync(apiUrl+"Books"))
@@ -25,16 +27,33 @@ namespace EBookStore.Mvc.Controllers
                     using (var content = response.Content)
                     {
                         var data= await content.ReadAsStringAsync();
-                        var bookResponse = JsonConvert.DeserializeObject<BookResponse>(data);
-                        return View(bookResponse);
+                        bookResponse = JsonConvert.DeserializeObject<BookResponse>(data);
+                    }
+                }
+                using (var responsePublisher = await client.GetAsync(apiUrl + "Publishers"))
+                {
+                    using (var content = responsePublisher.Content)
+                    {
+                        var publishersData = await content.ReadAsStringAsync();
+                        var publishers = JsonConvert.DeserializeObject<PublisherResponse>(publishersData);
+                        ViewBag.Publishers = publishers.Publishers;
                     }
                 }
             }
+                        return View(bookResponse);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Create(CreateBookRequest request)
         {
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:5069/api/Books");
+                var postTask = client.PostAsJsonAsync("Books", request);
+                postTask.Wait();
+                var result = postTask.Result;
+                return RedirectToAction(nameof(HomeController.Index));
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
