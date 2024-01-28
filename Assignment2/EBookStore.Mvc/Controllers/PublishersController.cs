@@ -1,6 +1,7 @@
 ﻿using EBookStore.Mvc.Models.Publisher;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace EBookStore.Mvc.Controllers
 {
@@ -11,6 +12,14 @@ namespace EBookStore.Mvc.Controllers
             var publishers = new PublisherResponse();
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var response = client.GetAsync("Publishers");
                 response.Wait();
@@ -33,6 +42,14 @@ namespace EBookStore.Mvc.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/Publishers");
                 var postTask = client.PostAsJsonAsync("Publishers", request);
                 postTask.Wait();
@@ -46,6 +63,14 @@ namespace EBookStore.Mvc.Controllers
         {
             using(var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var response = client.DeleteAsync("Publishers/"+id);
                 response.Wait();
@@ -60,6 +85,14 @@ namespace EBookStore.Mvc.Controllers
             var publisher = new PublisherDto();
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var response = client.GetAsync("Publishers/" + id);
                 response.Wait();
@@ -82,6 +115,14 @@ namespace EBookStore.Mvc.Controllers
         {
             using (var client =new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var putTask = client.PutAsJsonAsync("Publishers/"+id, request);
                 putTask.Wait();

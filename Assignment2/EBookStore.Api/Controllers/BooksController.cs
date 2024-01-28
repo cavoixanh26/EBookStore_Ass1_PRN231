@@ -1,6 +1,7 @@
 ﻿using EBookStore.Api.Dtos.Book;
 using EBookStore.Api.Dtos.Publisher;
 using EBookStore.Api.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace EBookStore.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly IBookService bookService;
@@ -32,6 +34,8 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult> Create(CreateBookRequest request)
         {
             await bookService.Create(request);
@@ -39,6 +43,8 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult> Update(int id, CreateBookRequest request)
         {
             await bookService.Update(id, request);
@@ -46,6 +52,8 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult> Delete(int id)
         {
             await bookService.Delete(id);

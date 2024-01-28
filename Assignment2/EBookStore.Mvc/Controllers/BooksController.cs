@@ -2,6 +2,8 @@
 using EBookStore.Mvc.Models.Publisher;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 
 namespace EBookStore.Mvc.Controllers
 {
@@ -12,6 +14,14 @@ namespace EBookStore.Mvc.Controllers
             var book = new BookDto();
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var response = client.GetAsync("Books/" + id);
                 response.Wait();
@@ -45,6 +55,14 @@ namespace EBookStore.Mvc.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var putTask = client.PutAsJsonAsync("Books/" + id, request);
                 putTask.Wait();
@@ -58,6 +76,14 @@ namespace EBookStore.Mvc.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["access_token"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+                
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client.BaseAddress = new Uri("http://localhost:5069/api/");
                 var response = client.DeleteAsync("Books/" + id);
                 response.Wait();
