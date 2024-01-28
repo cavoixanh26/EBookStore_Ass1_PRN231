@@ -62,8 +62,8 @@ namespace EBookStore.Mvc.Controllers
                 var response = client.DeleteAsync("Books/" + id);
                 response.Wait();
                 var result = response.Result;
-                return RedirectToAction(nameof(PublishersController.Index));
             }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

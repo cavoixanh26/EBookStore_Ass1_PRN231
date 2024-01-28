@@ -1,7 +1,6 @@
 ﻿@model EBookStore.Mvc.Models.Book.BookDto
 
 @{
-    ViewData["Title"] = "Detail";
 }
 
 <h1>Detail book</h1>
@@ -86,7 +85,7 @@
                 type: 'DELETE',
                 data: { id: bookId },
                 success: function (result) {
-                    window.location.reload();
+                    window.location.href = '@Url.Action("Index", "Home")';
                 },
                 error: function () {
                     alert('Failed to delete publisher.');
