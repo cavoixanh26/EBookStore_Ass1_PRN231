@@ -19,4 +19,11 @@
     {
         public List<BookDto> Books { get; set; }
     }
+
+    public class BookRequest
+    {
+        public string? Keyword { get; set; }
+        public decimal? PriceFrom { get; set; }
+        public decimal? PriceTo { get; set; }
+    }
 }

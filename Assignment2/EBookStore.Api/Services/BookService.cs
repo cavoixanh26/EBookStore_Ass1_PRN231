@@ -91,6 +91,14 @@ namespace EBookStore.Api.Services
                 .Include(x => x.BookAuthors)
                 .ThenInclude(x => x.Author)
                 .ToListAsync();
+            if (request.PriceFrom.HasValue)
+            {
+                books = books.Where(x => x.Price >= request.PriceFrom.Value).ToList();
+            }
+            if (request.PriceTo.HasValue)
+            {
+                books = books.Where(x => x.Price <= request.PriceTo.Value).ToList();
+            }
             var bookDtos = mapper.Map<List<BookDto>>(books);
             var response = new BookResponse
             {

@@ -1,5 +1,6 @@
 ﻿using EBookStore.Mvc.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -18,8 +19,13 @@ namespace EBookStore.Mvc.Controllers
             if (!string.IsNullOrEmpty(token))
             {
                 Response.Cookies.Append("access_token", token);
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+                var rolesClaim = jsonToken.Claims.FirstOrDefault(c => c.Type == "Role");
+                TempData["isRole"] = rolesClaim.Value;
                 return RedirectToAction("Index", "Home");
             }
+            TempData["isRole"] = string.Empty;
             return Unauthorized();
         }
 

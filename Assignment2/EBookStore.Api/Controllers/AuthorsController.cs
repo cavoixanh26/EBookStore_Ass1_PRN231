@@ -35,7 +35,6 @@ namespace EBookStore.Api.Controllers
 
 
         [HttpPost()]
-        [Authorize(Roles = "Admin")]
 
         public async Task<ActionResult> Create(CreateAuthorRequest request)
         {
@@ -44,8 +43,6 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-
         public async Task<ActionResult> Update(int id, CreateAuthorRequest request)
         {
             await authorService.UpdateAuthor(id, request);
@@ -53,8 +50,6 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-
         public async Task<ActionResult> Delete(int id)
         {
             await authorService.DeleteAuthor(id);

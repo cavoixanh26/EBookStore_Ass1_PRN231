@@ -48,7 +48,7 @@ namespace EBookStore.Api.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.EmailAddress),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.Role.RoleId.ToString()),
+                new Claim("Role", user.Role.RoleId.ToString()),
             };
             var token = new JwtSecurityToken(
                 issuer: "http://localhost:5069",

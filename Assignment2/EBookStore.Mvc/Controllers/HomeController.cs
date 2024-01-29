@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using System.Web;
 
 namespace EBookStore.Mvc.Controllers
 {
@@ -19,15 +20,8 @@ namespace EBookStore.Mvc.Controllers
             _logger = logger;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(BookRequest request)
         {
-            if(User.Identity.IsAuthenticated)
-{
-                foreach (var claim in User.Claims)
-                {
-                    Console.WriteLine($"{claim.Type}: {claim.Value}");
-                }
-            }
             BookResponse bookResponse = null;
             using (var client = new HttpClient())
             {
@@ -47,7 +41,24 @@ namespace EBookStore.Mvc.Controllers
                     var rolesClaim = jsonToken.Claims.FirstOrDefault(c => c.Type == "role");
                 }
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                using (var response = await client.GetAsync(apiUrl+"Books"))
+                var uriBuilder = new UriBuilder(apiUrl + "Books");
+
+                // Tạo một đối tượng NameValueCollection để lưu trữ tham số truy vấn
+                var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+
+                // Thêm các tham số truy vấn vào collection
+                query["Keyword"] = request.Keyword;
+                query["PriceFrom"] = request.PriceFrom.ToString();
+                query["PriceTo"] = request.PriceTo.ToString();
+
+                // Gán lại giá trị tham số truy vấn cho UriBuilder
+                uriBuilder.Query = query.ToString();
+
+                // Sử dụng UriBuilder.Uri để có Uri hoàn chỉnh với tham số truy vấn
+                var requestUri = uriBuilder.Uri;
+
+
+                using (var response = await client.GetAsync(requestUri))
                 {
                     using (var content = response.Content)
                     {

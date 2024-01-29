@@ -1,6 +1,7 @@
 ﻿@model EBookStore.Mvc.Models.Book.BookDto
 
 @{
+
 }
 
 <h1>Detail book</h1>
@@ -65,10 +66,10 @@
                         }
                 </select>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save edit" class="btn btn-primary" />
-                <button type="button" class="btn btn-danger"  onclick="deleteBook(@Model.BookId)">Delete</button>
-            </div>
+                <div class="form-group">
+                    <input type="submit" value="Save edit" class="btn btn-primary" />
+                    <button type="button" class="btn btn-danger"  onclick="deleteBook(@Model.BookId)">Delete</button>
+                </div>
         </form>
     </div>
 </div>

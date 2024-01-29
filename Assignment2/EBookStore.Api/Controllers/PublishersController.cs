@@ -10,8 +10,6 @@ namespace EBookStore.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-
     public class PublishersController : ControllerBase
     {
         private readonly IPublisherService publisherService;
@@ -36,8 +34,6 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-
         public async Task<ActionResult> Create(CreatePublisherRequest request)
         {
             await publisherService.Create(request);
@@ -45,8 +41,6 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-
         public async Task<ActionResult> Update(int id, CreatePublisherRequest request)
         {
             await publisherService.Update(id, request);
@@ -54,8 +48,6 @@ namespace EBookStore.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-
         public async Task<ActionResult> Delete(int id)
         {
             await publisherService.Delete(id);
